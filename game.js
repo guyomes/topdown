@@ -81,7 +81,7 @@ function createEnemy(x, y) {
                 this.y += (dy / distance) * speed;
             }
 
-            // Check for wall collisions
+            // Check for wall collisions and adjust movement
             walls.forEach(wall => {
                 if (this.x < wall.x + wall.width &&
                     this.x + this.width > wall.x &&
