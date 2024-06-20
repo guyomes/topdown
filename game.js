@@ -109,6 +109,16 @@ function createBullet(x, y, dx, dy) {
             this.x += (this.dx / Math.sqrt(this.dx * this.dx + this.dy * this.dy)) * speed;
             this.y += (this.dy / Math.sqrt(this.dx * this.dx + this.dy * this.dy)) * speed;
 
+            // Check for wall collisions
+            walls.forEach(wall => {
+                if (this.x < wall.x + wall.width &&
+                    this.x + this.width > wall.x &&
+                    this.y < wall.y + wall.height &&
+                    this.y + this.height > wall.y) {
+                    bullets.splice(bullets.indexOf(this), 1);
+                }
+            });
+
             // Check for player collision
             if (this.x < player.x + player.width &&
                 this.x + this.width > player.x &&
@@ -137,7 +147,6 @@ function update() {
     enemies.forEach(enemy => enemy.update());
     bullets.forEach(bullet => bullet.update());
     draw();
-    requestAnimationFrame(update);
 }
 
 function init() {
@@ -157,3 +166,4 @@ function init() {
 }
 
 init();
+setInterval(update, 1000 / 60);
