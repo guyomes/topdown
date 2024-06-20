@@ -87,12 +87,20 @@ function createEnemy(x, y) {
                     this.x + this.width > wall.x &&
                     this.y < wall.y + wall.height &&
                     this.y + this.height > wall.y) {
-                    // Move enemy away from wall
-                    if (dx > 0) this.x = wall.x - this.width;
-                    else this.x = wall.x + wall.width;
-
-                    if (dy > 0) this.y = wall.y - this.height;
-                    else this.y = wall.y + wall.height;
+                    // Move enemy around the wall
+                    if (dx > 0) {
+                        if (this.y < wall.y + wall.height / 2) {
+                            this.y = wall.y - this.height;
+                        } else {
+                            this.y = wall.y + wall.height;
+                        }
+                    } else {
+                        if (this.y < wall.y + wall.height / 2) {
+                            this.y = wall.y - this.height;
+                        } else {
+                            this.y = wall.y + wall.height;
+                        }
+                    }
                 }
             });
 
