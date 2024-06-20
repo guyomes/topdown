@@ -18,6 +18,23 @@ const player = {
     }
 };
 
+const walls = [];
+
+function createWall() {
+    const wall = {
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        width: 50,
+        height: 50,
+        color: '#8b4513',
+        draw: function() {
+            ctx.fillStyle = this.color;
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
+    };
+    walls.push(wall);
+}
+
 const enemies = [];
 
 function createEnemy() {
@@ -30,6 +47,32 @@ function createEnemy() {
         draw: function() {
             ctx.fillStyle = this.color;
             ctx.fillRect(this.x, this.y, this.width, this.height);
+        },
+        update: function() {
+            const dx = player.x - this.x;
+            const dy = player.y - this.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            const speed = 1;
+
+            if (distance > 0) {
+                this.x += (dx / distance) * speed;
+                this.y += (dy / distance) * speed;
+            }
+
+            // Check for wall collisions
+            walls.forEach(wall => {
+                if (this.x < wall.x + wall.width &&
+                    this.x + this.width > wall.x &&
+                    this.y < wall.y + wall.height &&
+                    this.y + this.height > wall.y) {
+                    // Move enemy away from wall
+                    if (dx > 0) this.x = wall.x - this.width;
+                    else this.x = wall.x + wall.width;
+
+                    if (dy > 0) this.y = wall.y - this.height;
+                    else this.y = wall.y + wall.height;
+                }
+            });
         }
     };
     enemies.push(enemy);
@@ -38,15 +81,20 @@ function createEnemy() {
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     player.draw();
+    walls.forEach(wall => wall.draw());
     enemies.forEach(enemy => enemy.draw());
 }
 
 function update() {
+    enemies.forEach(enemy => enemy.update());
     draw();
     requestAnimationFrame(update);
 }
 
 function init() {
+    for (let i = 0; i < 10; i++) {
+        createWall();
+    }
     setInterval(createEnemy, 1000);
     update();
 }
