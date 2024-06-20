@@ -4,7 +4,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 90vh; /* Decreased height to accommodate the button bar on Android */
     background-color: #fff;
     padding-bottom: 20px; /* Increased bottom margin for body */
 }
