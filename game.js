@@ -37,10 +37,10 @@ function createWall() {
 
 const enemies = [];
 
-function createEnemy() {
+function createEnemy(x, y) {
     const enemy = {
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
+        x: x,
+        y: y,
         width: 20,
         height: 20,
         color: '#f00',
@@ -95,7 +95,10 @@ function init() {
     for (let i = 0; i < 10; i++) {
         createWall();
     }
-    setInterval(createEnemy, 1000);
+    createEnemy(0, 0);
+    createEnemy(canvas.width, 0);
+    createEnemy(0, canvas.height);
+    createEnemy(canvas.width, canvas.height);
     update();
 }
 
