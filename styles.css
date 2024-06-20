@@ -11,6 +11,6 @@ body {
 canvas {
     border: 1px solid #000;
     width: 98%;
-    height: 95%; /* Increased bottom margin to accommodate the button bar on Android */
+    height: 90%; /* Further increased bottom margin to accommodate the button bar on Android */
     margin: 1%;
 }
