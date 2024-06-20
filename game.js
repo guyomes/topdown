@@ -8,6 +8,7 @@ const player = {
     height: 20,
     color: '#0f0',
     health: 10,
+    speed: 5,
     draw: function() {
         ctx.beginPath();
         ctx.moveTo(this.x, this.y - this.height / 2);
@@ -22,6 +23,16 @@ const player = {
         ctx.fillRect(this.x - this.width / 2, this.y - this.height, this.width, 5);
         ctx.fillStyle = '#0f0';
         ctx.fillRect(this.x - this.width / 2, this.y - this.height, this.width * (this.health / 10), 5);
+    },
+    update: function(dx, dy) {
+        this.x += dx * this.speed;
+        this.y += dy * this.speed;
+
+        // Keep player within canvas bounds
+        if (this.x < 0) this.x = 0;
+        if (this.x > canvas.width) this.x = canvas.width;
+        if (this.y < 0) this.y = 0;
+        if (this.y > canvas.height) this.y = canvas.height;
     }
 };
 
@@ -144,6 +155,43 @@ function draw() {
 }
 
 function update() {
+    let dx = 0, dy = 0;
+
+    // Keyboard controls
+    document.addEventListener('keydown', (e) => {
+        switch (e.key) {
+            case 'ArrowUp':
+                dy = -1;
+                break;
+            case 'ArrowDown':
+                dy = 1;
+                break;
+            case 'ArrowLeft':
+                dx = -1;
+                break;
+            case 'ArrowRight':
+                dx = 1;
+                break;
+        }
+    });
+
+    // Touch controls
+    canvas.addEventListener('touchstart', (e) => {
+        const touch = e.touches[0];
+        const touchX = touch.clientX - canvas.getBoundingClientRect().left;
+        const touchY = touch.clientY - canvas.getBoundingClientRect().top;
+
+        const dx = touchX - player.x;
+        const dy = touchY - player.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance > 0) {
+            player.x += (dx / distance) * player.speed;
+            player.y += (dy / distance) * player.speed;
+        }
+    });
+
+    player.update(dx, dy);
     enemies.forEach(enemy => enemy.update());
     bullets.forEach(bullet => bullet.update());
     draw();
