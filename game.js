@@ -71,42 +71,23 @@ function createEnemy(x, y) {
             ctx.fillRect(this.x, this.y, this.width, this.height);
         },
         update: function() {
-            const dx = player.x - this.x;
-            const dy = player.y - this.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            const speed = 1;
+            const path = findPath(this.x, this.y, player.x, player.y);
+            if (path.length > 0) {
+                const nextStep = path[0];
+                const dx = nextStep.x - this.x;
+                const dy = nextStep.y - this.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                const speed = 1;
 
-            if (distance > 0) {
-                this.x += (dx / distance) * speed;
-                this.y += (dy / distance) * speed;
-            }
-
-            // Check for wall collisions and adjust movement
-            walls.forEach(wall => {
-                if (this.x < wall.x + wall.width &&
-                    this.x + this.width > wall.x &&
-                    this.y < wall.y + wall.height &&
-                    this.y + this.height > wall.y) {
-                    // Move enemy around the wall
-                    if (dx > 0) {
-                        if (this.y < wall.y + wall.height / 2) {
-                            this.y = wall.y - this.height;
-                        } else {
-                            this.y = wall.y + wall.height;
-                        }
-                    } else {
-                        if (this.y < wall.y + wall.height / 2) {
-                            this.y = wall.y - this.height;
-                        } else {
-                            this.y = wall.y + wall.height;
-                        }
-                    }
+                if (distance > 0) {
+                    this.x += (dx / distance) * speed;
+                    this.y += (dy / distance) * speed;
                 }
-            });
+            }
 
             // Shoot bullet towards player
             if (Math.random() < 0.02) {
-                createBullet(this.x, this.y, dx, dy);
+                createBullet(this.x, this.y, player.x - this.x, player.y - this.y);
             }
         }
     };
@@ -226,3 +207,96 @@ function init() {
 
 init();
 setInterval(update, 1000 / 60);
+
+function findPath(startX, startY, endX, endY) {
+    const grid = createGrid();
+    const startNode = grid[Math.floor(startY / 50)][Math.floor(startX / 50)];
+    const endNode = grid[Math.floor(endY / 50)][Math.floor(endX / 50)];
+    const openList = [];
+    const closedList = [];
+    openList.push(startNode);
+
+    while (openList.length > 0) {
+        let currentNode = openList[0];
+        let currentIndex = 0;
+        for (let i = 1; i < openList.length; i++) {
+            if (openList[i].f < currentNode.f) {
+                currentNode = openList[i];
+                currentIndex = i;
+            }
+        }
+
+        openList.splice(currentIndex, 1);
+        closedList.push(currentNode);
+
+        if (currentNode === endNode) {
+            const path = [];
+            let current = currentNode;
+            while (current) {
+                path.push({ x: current.x * 50 + 25, y: current.y * 50 + 25 });
+                current = current.parent;
+            }
+            return path.reverse();
+        }
+
+        const children = [];
+        const directions = [
+            { dx: -1, dy: -1 }, { dx: 0, dy: -1 }, { dx: 1, dy: -1 },
+            { dx: -1, dy: 0 },                  { dx: 1, dy: 0 },
+            { dx: -1, dy: 1 }, { dx: 0, dy: 1 }, { dx: 1, dy: 1 }
+        ];
+        for (const direction of directions) {
+            const nodeX = currentNode.x + direction.dx;
+            const nodeY = currentNode.y + direction.dy;
+
+            if (nodeX < 0 || nodeX >= grid[0].length || nodeY < 0 || nodeY >= grid.length) {
+                continue;
+            }
+
+            if (grid[nodeY][nodeX].isWall) {
+                continue;
+            }
+
+            children.push(grid[nodeY][nodeX]);
+        }
+
+        for (const child of children) {
+            if (closedList.includes(child)) {
+                continue;
+            }
+
+            child.g = currentNode.g + 1;
+            child.h = Math.sqrt((child.x - endNode.x) ** 2 + (child.y - endNode.y) ** 2);
+            child.f = child.g + child.h;
+            child.parent = currentNode;
+
+            if (!openList.includes(child)) {
+                openList.push(child);
+            }
+        }
+    }
+
+    return [];
+}
+
+function createGrid() {
+    const grid = [];
+    const rows = Math.ceil(canvas.height / 50);
+    const cols = Math.ceil(canvas.width / 50);
+
+    for (let y = 0; y < rows; y++) {
+        const row = [];
+        for (let x = 0; x < cols; x++) {
+            const isWall = walls.some(wall => {
+                return x * 50 < wall.x + wall.width &&
+                    x * 50 + 50 > wall.x &&
+                    y * 50 < wall.y + wall.height &&
+                    y * 50 + 50 > wall.y;
+            });
+            row.push({ x, y, isWall, g: 0, h: 0, f: 0, parent: null });
+        }
+        grid.push(row);
+    }
+
+    return grid;
+}
