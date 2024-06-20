@@ -26,7 +26,7 @@ function createWall() {
         y: Math.random() * canvas.height,
         width: 50,
         height: 50,
-        color: '#8b4513',
+        color: '#000',
         draw: function() {
             ctx.fillStyle = this.color;
             ctx.fillRect(this.x, this.y, this.width, this.height);
@@ -43,7 +43,7 @@ function createEnemy(x, y) {
         y: y,
         width: 20,
         height: 20,
-        color: '#f00',
+        color: '#00f',
         draw: function() {
             ctx.fillStyle = this.color;
             ctx.fillRect(this.x, this.y, this.width, this.height);
