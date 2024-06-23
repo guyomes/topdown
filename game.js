@@ -80,7 +80,7 @@ function createEnemy(x, y) {
 
             // Enemy shoots
             if (Math.random() < 0.05) {
-                createBullet(this.x, this.y, (player.x - this.x) / 10, (player.y - this.y) / 10, this);
+                createBullet(this.x, this.y, (player.x - this.x) / 10, (player.y - this.y) / 10, 'enemy');
             }
         }
     };
@@ -89,8 +89,8 @@ function createEnemy(x, y) {
 
 function createBullet(x, y, dx, dy, owner) {
     const bullet = {
-        x: x+dx*20,
-        y: y+dy*20,
+        x: x+dx*10,
+        y: y+dy*10,
         width: 5,
         height: 5,
         color: '#f00',
@@ -111,6 +111,7 @@ function createBullet(x, y, dx, dy, owner) {
                 this.x + this.width > player.x &&
                 this.y < player.y + player.height &&
                 this.y + this.height > player.y) {
+                console.log(`Bullet owner: ${this.owner}`);
                 console.log(`Bullet position: x=${this.x}, y=${this.y}`);
                 console.log(`Player position: x=${player.x}, y=${player.y}`);
                 if (this.owner !== 'player') {
