@@ -89,8 +89,8 @@ function createEnemy(x, y) {
 
 function createBullet(x, y, dx, dy) {
     const bullet = {
-        x: x+dx*10,
-        y: y+dy*10,
+        x: x+dx*20,
+        y: y+dy*20,
         width: 5,
         height: 5,
         color: '#f00',
