@@ -38,6 +38,9 @@ const player = {
         if (this.x > canvas.width) this.x = canvas.width;
         if (this.y < 0) this.y = 0;
         if (this.y > canvas.height) this.y = canvas.height;
+
+        // Shoot bullet automatically
+        createBullet(this.x, this.y, 0, -5);
     },
     shoot: function() {
         createBullet(this.x, this.y, 0, -5);
