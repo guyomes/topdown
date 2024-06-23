@@ -46,8 +46,8 @@ function createWall() {
     const numVertices = 3 + Math.floor(Math.random() * 3); // Random number of vertices between 3 and 5
     for (let i = 0; i < numVertices; i++) {
         vertices.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height
+            x: Math.random() * canvas.width * 0.5, // Make walls smaller by reducing the range
+            y: Math.random() * canvas.height * 0.5  // Make walls smaller by reducing the range
         });
     }
 
