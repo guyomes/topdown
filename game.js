@@ -40,9 +40,9 @@ const player = {
         if (this.y > canvas.height) this.y = canvas.height;
     },
     shoot: function() {
-        createBullet(this.x, this.y, 0, -5); // Up
-        createBullet(this.x, this.y, -5, 5); // Left-down
-        createBullet(this.x, this.y, 5, 5); // Right-down
+        createBullet(this.x, this.y, 0, -5, 'player'); // Up
+        createBullet(this.x, this.y, -5, 5, 'player'); // Left-down
+        createBullet(this.x, this.y, 5, 5, 'player'); // Right-down
     }
 };
 
@@ -80,14 +80,14 @@ function createEnemy(x, y) {
 
             // Enemy shoots
             if (Math.random() < 0.05) {
-                createBullet(this.x, this.y, (player.x - this.x) / 10, (player.y - this.y) / 10);
+                createBullet(this.x, this.y, (player.x - this.x) / 10, (player.y - this.y) / 10, this);
             }
         }
     };
     enemies.push(enemy);
 }
 
-function createBullet(x, y, dx, dy) {
+function createBullet(x, y, dx, dy, owner) {
     const bullet = {
         x: x+dx*20,
         y: y+dy*20,
@@ -96,7 +96,7 @@ function createBullet(x, y, dx, dy) {
         color: '#f00',
         dx: dx,
         dy: dy,
-        owner: null,
+        owner: owner,
         draw: function() {
             ctx.fillStyle = this.color;
             ctx.fillRect(this.x, this.y, this.width, this.height);
@@ -137,9 +137,6 @@ function createBullet(x, y, dx, dy) {
             });
         }
     };
-    if (dx === 0 && dy === -5) {
-        bullet.owner = 'player';
-    }
     bullets.push(bullet);
 }
 
