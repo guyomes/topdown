@@ -92,9 +92,16 @@ function createEnemy(x, y) {
         width: 20,
         height: 20,
         color: '#00f',
+        health: 3,
         draw: function() {
             ctx.fillStyle = this.color;
             ctx.fillRect(this.x, this.y, this.width, this.height);
+
+            // Draw health bar
+            ctx.fillStyle = '#f00';
+            ctx.fillRect(this.x, this.y - this.height, this.width, 5);
+            ctx.fillStyle = '#0f0';
+            ctx.fillRect(this.x, this.y - this.height, this.width * (this.health / 3), 5);
         },
         update: function() {
             const dx = player.x - this.x;
@@ -152,6 +159,20 @@ function createBullet(x, y, dx, dy) {
                 }
                 bullets.splice(bullets.indexOf(this), 1);
             }
+
+            // Check for enemy collision
+            enemies.forEach(enemy => {
+                if (this.x < enemy.x + enemy.width &&
+                    this.x + this.width > enemy.x &&
+                    this.y < enemy.y + enemy.height &&
+                    this.y + this.height > enemy.y) {
+                    enemy.health -= 1;
+                    if (enemy.health <= 0) {
+                        enemies.splice(enemies.indexOf(enemy), 1);
+                    }
+                    bullets.splice(bullets.indexOf(this), 1);
+                }
+            });
         }
     };
     bullets.push(bullet);
