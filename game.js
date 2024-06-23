@@ -155,6 +155,7 @@ function draw() {
 
 function update() {
     draw();
+    player.update(); // Call player update
     enemies.forEach(enemy => enemy.update());
     bullets.forEach(bullet => bullet.update());
 }
