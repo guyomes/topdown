@@ -146,7 +146,7 @@ function createBullet(x, y, dx, dy) {
             });
 
             // Check for player collision
-            if (this.x < player.x + player.width &&
+            if (this.owner !== 'player' && this.x < player.x + player.width &&
                 this.x + this.width > player.x &&
                 this.y < player.y + player.height &&
                 this.y + this.height > player.y) {
