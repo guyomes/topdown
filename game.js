@@ -94,18 +94,14 @@ function createEnemy(x, y) {
             ctx.fillRect(this.x, this.y, this.width, this.height);
         },
         update: function() {
-            const path = findPath(this.x, this.y, player.x, player.y);
-            if (path.length > 0) {
-                const nextStep = path[0];
-                const dx = nextStep.x - this.x;
-                const dy = nextStep.y - this.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                const speed = 1;
+            const dx = player.x - this.x;
+            const dy = player.y - this.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            const speed = 1;
 
-                if (distance > 0) {
-                    this.x += (dx / distance) * speed;
-                    this.y += (dy / distance) * speed;
-                }
+            if (distance > 0) {
+                this.x += (dx / distance) * speed;
+                this.y += (dy / distance) * speed;
             }
 
             // Shoot bullet towards player
