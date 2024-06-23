@@ -150,9 +150,11 @@ function createBullet(x, y, dx, dy) {
                 this.x + this.width > player.x &&
                 this.y < player.y + player.height &&
                 this.y + this.height > player.y) {
-                player.health -= 1;
-                if (player.health <= 0) {
-                    init();
+                if (this.owner !== 'player') {
+                    player.health -= 1;
+                    if (player.health <= 0) {
+                        init();
+                    }
                 }
                 bullets.splice(bullets.indexOf(this), 1);
             }
@@ -170,7 +172,8 @@ function createBullet(x, y, dx, dy) {
                     bullets.splice(bullets.indexOf(this), 1);
                 }
             });
-        }
+        },
+        owner: 'player'
     };
     bullets.push(bullet);
 }
