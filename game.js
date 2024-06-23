@@ -40,7 +40,9 @@ const player = {
         if (this.y > canvas.height) this.y = canvas.height;
     },
     shoot: function() {
-        createBullet(this.x, this.y, 0, -5);
+        createBullet(this.x, this.y, 0, -5); // Up
+        createBullet(this.x, this.y, -5, 5); // Left-down
+        createBullet(this.x, this.y, 5, 5); // Right-down
     }
 };
 
