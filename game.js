@@ -13,6 +13,7 @@ const player = {
     health: 10,
     speed: 5,
     draw: function() {
+        console.log("Player draw called"); // Display message when player draw is called
         ctx.beginPath();
         ctx.moveTo(this.x, this.y - this.height / 2);
         ctx.lineTo(this.x - this.width / 2, this.y + this.height / 2);
@@ -28,6 +29,7 @@ const player = {
         ctx.fillRect(this.x - this.width / 2, this.y - this.height, this.width * (this.health / 10), 5);
     },
     update: function(dx, dy) {
+        console.log(`Player update called with arguments: dx=${dx}, dy=${dy}`); // Display message when player update is called with arguments
         this.x += dx * this.speed;
         this.y += dy * this.speed;
 
