@@ -42,15 +42,36 @@ const player = {
 const walls = [];
 
 function createWall() {
+    const vertices = [];
+    const numVertices = 3 + Math.floor(Math.random() * 3); // Random number of vertices between 3 and 5
+    for (let i = 0; i < numVertices; i++) {
+        vertices.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height
+        });
+    }
+
+    // Sort vertices to ensure they are in clockwise order
+    const centerX = vertices.reduce((sum, vertex) => sum + vertex.x, 0) / vertices.length;
+    const centerY = vertices.reduce((sum, vertex) => sum + vertex.y, 0) / vertices.length;
+    vertices.sort((a, b) => {
+        const angleA = Math.atan2(a.y - centerY, a.x - centerX);
+        const angleB = Math.atan2(b.y - centerY, b.x - centerX);
+        return angleA - angleB;
+    });
+
     const wall = {
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        width: 50,
-        height: 50,
+        vertices: vertices,
         color: '#000',
         draw: function() {
+            ctx.beginPath();
+            ctx.moveTo(this.vertices[0].x, this.vertices[0].y);
+            for (let i = 1; i < this.vertices.length; i++) {
+                ctx.lineTo(this.vertices[i].x, this.vertices[i].y);
+            }
+            ctx.closePath();
             ctx.fillStyle = this.color;
-            ctx.fillRect(this.x, this.y, this.width, this.height);
+            ctx.fill();
         }
     };
     walls.push(wall);
@@ -114,10 +135,7 @@ function createBullet(x, y, dx, dy) {
 
             // Check for wall collisions
             walls.forEach(wall => {
-                if (this.x < wall.x + wall.width &&
-                    this.x + this.width > wall.x &&
-                    this.y < wall.y + wall.height &&
-                    this.y + this.height > wall.y) {
+                if (isPointInPolygon(this.x, this.y, wall.vertices)) {
                     bullets.splice(bullets.indexOf(this), 1);
                 }
             });
@@ -288,10 +306,7 @@ function createGrid() {
         const row = [];
         for (let x = 0; x < cols; x++) {
             const isWall = walls.some(wall => {
-                return x * 50 < wall.x + wall.width &&
-                    x * 50 + 50 > wall.x &&
-                    y * 50 < wall.y + wall.height &&
-                    y * 50 + 50 > wall.y;
+                return isPointInPolygon(x * 50 + 25, y * 50 + 25, wall.vertices);
             });
             row.push({ x, y, isWall, g: 0, h: 0, f: 0, parent: null });
         }
@@ -299,4 +314,17 @@ function createGrid() {
     }
 
     return grid;
+}
+
+function isPointInPolygon(x, y, vertices) {
+    let inside = false;
+    for (let i = 0, j = vertices.length - 1; i < vertices.length; j = i++) {
+        const xi = vertices[i].x, yi = vertices[i].y;
+        const xj = vertices[j].x, yj = vertices[j].y;
+
+        const intersect = ((yi > y) != (yj > y)) &&
+            (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+        if (intersect) inside = !inside;
+    }
+    return inside;
 }
