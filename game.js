@@ -173,18 +173,22 @@ function update() {
             case 'ArrowUp':
             case 'z':
                 dy = -1;
+                document.getElementById('editCounter').innerText = 'ArrowUp pressed';
                 break;
             case 'ArrowDown':
             case 's':
                 dy = 1;
+                document.getElementById('editCounter').innerText = 'ArrowDown pressed';
                 break;
             case 'ArrowLeft':
             case 'q':
                 dx = -1;
+                document.getElementById('editCounter').innerText = 'ArrowLeft pressed';
                 break;
             case 'ArrowRight':
             case 'd':
                 dx = 1;
+                document.getElementById('editCounter').innerText = 'ArrowRight pressed';
                 break;
         }
     });
