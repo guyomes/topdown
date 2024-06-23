@@ -171,15 +171,19 @@ function update() {
     document.addEventListener('keydown', (e) => {
         switch (e.key) {
             case 'ArrowUp':
+            case 'z':
                 dy = -1;
                 break;
             case 'ArrowDown':
+            case 's':
                 dy = 1;
                 break;
             case 'ArrowLeft':
+            case 'q':
                 dx = -1;
                 break;
             case 'ArrowRight':
+            case 'd':
                 dx = 1;
                 break;
         }
