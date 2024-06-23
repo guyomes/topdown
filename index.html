@@ -10,8 +10,15 @@
     <meta http-equiv="Expires" content="0">
 </head>
 <body>
-    <div id="editCounter">1</div> <!-- Added this line -->
+    <div id="editCounter">1</div>
     <canvas id="gameCanvas"></canvas>
+    <div id="mobile-controls" style="display: none;">
+        <div id="up" style="position: absolute; top: 50%; left: 45%; width: 10%; height: 10%; background-color: #fff; border: 1px solid #000;"></div>
+        <div id="down" style="position: absolute; top: 60%; left: 45%; width: 10%; height: 10%; background-color: #fff; border: 1px solid #000;"></div>
+        <div id="left" style="position: absolute; top: 55%; left: 40%; width: 10%; height: 10%; background-color: #fff; border: 1px solid #000;"></div>
+        <div id="right" style="position: absolute; top: 55%; left: 50%; width: 10%; height: 10%; background-color: #fff; border: 1px solid #000;"></div>
+        <div id="shoot" style="position: absolute; top: 55%; left: 55%; width: 10%; height: 10%; background-color: #fff; border: 1px solid #000;"></div>
+    </div>
     <script src="game.js"></script>
 </body>
 </html>

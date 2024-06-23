@@ -219,3 +219,49 @@ document.addEventListener('keyup', (e) => {
             break;
     }
 });
+
+document.addEventListener('touchstart', (e) => {
+    const mobileControls = document.getElementById('mobile-controls');
+    mobileControls.style.display = 'block';
+    const up = document.getElementById('up');
+    const down = document.getElementById('down');
+    const left = document.getElementById('left');
+    const right = document.getElementById('right');
+    const shoot = document.getElementById('shoot');
+
+    up.addEventListener('touchstart', () => {
+        player.dy = -1;
+    });
+
+    up.addEventListener('touchend', () => {
+        player.dy = 0;
+    });
+
+    down.addEventListener('touchstart', () => {
+        player.dy = 1;
+    });
+
+    down.addEventListener('touchend', () => {
+        player.dy = 0;
+    });
+
+    left.addEventListener('touchstart', () => {
+        player.dx = -1;
+    });
+
+    left.addEventListener('touchend', () => {
+        player.dx = 0;
+    });
+
+    right.addEventListener('touchstart', () => {
+        player.dx = 1;
+    });
+
+    right.addEventListener('touchend', () => {
+        player.dx = 0;
+    });
+
+    shoot.addEventListener('touchstart', () => {
+        player.shoot();
+    });
+});
