@@ -167,38 +167,9 @@ function draw() {
 }
 
 function update() {
-    let dx = 0, dy = 0;
-
-    // Keyboard controls
-    document.addEventListener('keydown', (e) => {
-        switch (e.key) {
-            case 'ArrowUp':
-            case 'z':
-                dy = -1;
-                document.getElementById('editCounter').innerText = `ArrowUp pressed - Player Position: (${player.x.toFixed(2)}, ${player.y.toFixed(2)})`;
-                break;
-            case 'ArrowDown':
-            case 's':
-                dy = 1;
-                document.getElementById('editCounter').innerText = `ArrowDown pressed - Player Position: (${player.x.toFixed(2)}, ${player.y.toFixed(2)})`;
-                break;
-            case 'ArrowLeft':
-            case 'q':
-                dx = -1;
-                document.getElementById('editCounter').innerText = `ArrowLeft pressed - Player Position: (${player.x.toFixed(2)}, ${player.y.toFixed(2)})`;
-                break;
-            case 'ArrowRight':
-            case 'd':
-                dx = 1;
-                document.getElementById('editCounter').innerText = `ArrowRight pressed - Player Position: (${player.x.toFixed(2)}, ${player.y.toFixed(2)})`;
-                break;
-        }
-    });
-
-    player.update(dx, dy);
+    draw();
     enemies.forEach(enemy => enemy.update());
     bullets.forEach(bullet => bullet.update());
-    draw();
 }
 
 function init() {
@@ -219,6 +190,35 @@ function init() {
 
 init();
 setInterval(update, 1000 / 60);
+
+document.addEventListener('keydown', (e) => {
+    let dx = 0, dy = 0;
+
+    switch (e.key) {
+        case 'ArrowUp':
+        case 'z':
+            dy = -1;
+            document.getElementById('editCounter').innerText = `ArrowUp pressed - Player Position: (${player.x.toFixed(2)}, ${player.y.toFixed(2)})`;
+            break;
+        case 'ArrowDown':
+        case 's':
+            dy = 1;
+            document.getElementById('editCounter').innerText = `ArrowDown pressed - Player Position: (${player.x.toFixed(2)}, ${player.y.toFixed(2)})`;
+            break;
+        case 'ArrowLeft':
+        case 'q':
+            dx = -1;
+            document.getElementById('editCounter').innerText = `ArrowLeft pressed - Player Position: (${player.x.toFixed(2)}, ${player.y.toFixed(2)})`;
+            break;
+        case 'ArrowRight':
+        case 'd':
+            dx = 1;
+            document.getElementById('editCounter').innerText = `ArrowRight pressed - Player Position: (${player.x.toFixed(2)}, ${player.y.toFixed(2)})`;
+            break;
+    }
+
+    player.update(dx, dy);
+});
 
 function findPath(startX, startY, endX, endY) {
     const grid = createGrid();
