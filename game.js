@@ -38,6 +38,9 @@ const player = {
         if (this.x > canvas.width) this.x = canvas.width;
         if (this.y < 0) this.y = 0;
         if (this.y > canvas.height) this.y = canvas.height;
+    },
+    shoot: function() {
+        createBullet(this.x, this.y, 0, -5);
     }
 };
 
@@ -210,6 +213,9 @@ document.addEventListener('keydown', (e) => {
         case 'd':
             dx = 1;
             document.getElementById('editCounter').innerText = `ArrowRight pressed - Player Position: (${player.x.toFixed(2)}, ${player.y.toFixed(2)})`;
+            break;
+        case 'Space':
+            player.shoot();
             break;
     }
 
