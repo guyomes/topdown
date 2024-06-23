@@ -185,22 +185,6 @@ function update() {
         }
     });
 
-    // Touch controls
-    canvas.addEventListener('touchstart', (e) => {
-        const touch = e.touches[0];
-        const touchX = touch.clientX - canvas.getBoundingClientRect().left;
-        const touchY = touch.clientY - canvas.getBoundingClientRect().top;
-
-        const dx = touchX - player.x;
-        const dy = touchY - player.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-
-        if (distance > 0) {
-            player.x += (dx / distance) * player.speed;
-            player.y += (dy / distance) * player.speed;
-        }
-    });
-
     player.update(dx, dy);
     enemies.forEach(enemy => enemy.update());
     bullets.forEach(bullet => bullet.update());
