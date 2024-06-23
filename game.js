@@ -88,14 +88,17 @@ function createEnemy(x, y) {
 }
 
 function createBullet(x, y, dx, dy, owner) {
+    const length = Math.sqrt(dx * dx + dy * dy);
+    const normalDx = dx / length;
+    const normalDy = dy / length;
     const bullet = {
-        x: x+dx*10,
-        y: y+dy*10,
+        x: x+normalDx*10,
+        y: y+normalDy*10,
         width: 5,
         height: 5,
         color: '#f00',
-        dx: dx,
-        dy: dy,
+        dx: normalDx,
+        dy: normalDy,
         owner: owner,
         draw: function() {
             ctx.fillStyle = this.color;
