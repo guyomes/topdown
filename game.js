@@ -113,11 +113,6 @@ function createEnemy(x, y) {
                 this.x += (dx / distance) * speed;
                 this.y += (dy / distance) * speed;
             }
-
-            // Shoot bullet towards player
-            if (Math.random() < 0.02) {
-                createBullet(this.x, this.y, player.x - this.x, player.y - this.y);
-            }
         }
     };
     enemies.push(enemy);
