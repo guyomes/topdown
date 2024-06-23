@@ -173,22 +173,22 @@ function update() {
             case 'ArrowUp':
             case 'z':
                 dy = -1;
-                document.getElementById('editCounter').innerText = 'ArrowUp pressed';
+                document.getElementById('editCounter').innerText = `ArrowUp pressed - Player Position: (${player.x.toFixed(2)}, ${player.y.toFixed(2)})`;
                 break;
             case 'ArrowDown':
             case 's':
                 dy = 1;
-                document.getElementById('editCounter').innerText = 'ArrowDown pressed';
+                document.getElementById('editCounter').innerText = `ArrowDown pressed - Player Position: (${player.x.toFixed(2)}, ${player.y.toFixed(2)})`;
                 break;
             case 'ArrowLeft':
             case 'q':
                 dx = -1;
-                document.getElementById('editCounter').innerText = 'ArrowLeft pressed';
+                document.getElementById('editCounter').innerText = `ArrowLeft pressed - Player Position: (${player.x.toFixed(2)}, ${player.y.toFixed(2)})`;
                 break;
             case 'ArrowRight':
             case 'd':
                 dx = 1;
-                document.getElementById('editCounter').innerText = 'ArrowRight pressed';
+                document.getElementById('editCounter').innerText = `ArrowRight pressed - Player Position: (${player.x.toFixed(2)}, ${player.y.toFixed(2)})`;
                 break;
         }
     });
