@@ -105,7 +105,7 @@ function createBullet(x, y, dx, dy, owner) {
             ctx.fillRect(this.x, this.y, this.width, this.height);
         },
         update: function() {
-            const speed = 5;
+            const speed = 2; // Decreased bullet speed
             this.x += (this.dx / Math.sqrt(this.dx * this.dx + this.dy * this.dy)) * speed;
             this.y += (this.dy / Math.sqrt(this.dx * this.dx + this.dy * this.dy)) * speed;
 
