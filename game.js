@@ -134,6 +134,7 @@ function createBullet(x, y, dx, dy) {
         color: '#f00',
         dx: dx,
         dy: dy,
+        owner: null,
         draw: function() {
             ctx.fillStyle = this.color;
             ctx.fillRect(this.x, this.y, this.width, this.height);
@@ -166,7 +167,7 @@ function createBullet(x, y, dx, dy) {
 
             // Check for enemy collision
             enemies.forEach(enemy => {
-                if (this.x < enemy.x + enemy.width &&
+                if (this.owner !== enemy && this.x < enemy.x + enemy.width &&
                     this.x + this.width > enemy.x &&
                     this.y < enemy.y + enemy.height &&
                     this.y + this.height > enemy.y) {
@@ -177,8 +178,7 @@ function createBullet(x, y, dx, dy) {
                     bullets.splice(bullets.indexOf(this), 1);
                 }
             });
-        },
-        owner: 'player'
+        }
     };
     bullets.push(bullet);
 }
