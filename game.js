@@ -40,9 +40,9 @@ const player = {
         if (this.y > canvas.height) this.y = canvas.height;
     },
     shoot: function() {
-        createBullet(this.x, this.y, 0, -5, 'player'); // Up
-        createBullet(this.x, this.y, -5, 5, 'player'); // Left-down
-        createBullet(this.x, this.y, 5, 5, 'player'); // Right-down
+        //createBullet(this.x, this.y, 0, -5, 'player'); // Up
+        //createBullet(this.x, this.y, -5, 5, 'player'); // Left-down
+        //createBullet(this.x, this.y, 5, 5, 'player'); // Right-down
     }
 };
 
@@ -92,8 +92,8 @@ function createBullet(x, y, dx, dy, owner) {
     const normalDx = dx / length;
     const normalDy = dy / length;
     const bullet = {
-        x: x+normalDx*10,
-        y: y+normalDy*10,
+        x: x+normalDx*50,
+        y: y+normalDy*50,
         width: 5,
         height: 5,
         color: '#f00',
