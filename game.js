@@ -12,6 +12,8 @@ const player = {
     color: '#0f0',
     health: 10,
     speed: 5,
+    dx: 0,
+    dy: 0,
     draw: function() {
         console.log("Player draw called"); // Display message when player draw is called
         ctx.beginPath();
@@ -28,10 +30,10 @@ const player = {
         ctx.fillStyle = '#0f0';
         ctx.fillRect(this.x - this.width / 2, this.y - this.height, this.width * (this.health / 10), 5);
     },
-    update: function(dx, dy) {
-        console.log(`Player update called with arguments: dx=${dx}, dy=${dy}`); // Display message when player update is called with arguments
-        this.x += dx * this.speed;
-        this.y += dy * this.speed;
+    update: function() {
+        console.log(`Player update called with arguments: dx=${this.dx}, dy=${this.dy}`); // Display message when player update is called with arguments
+        this.x += this.dx * this.speed;
+        this.y += this.dy * this.speed;
 
         // Keep player within canvas bounds
         if (this.x < 0) this.x = 0;
@@ -177,29 +179,42 @@ setInterval(() => {
 setInterval(update, 1000 / 60);
 
 document.addEventListener('keydown', (e) => {
-    let dx = 0, dy = 0;
-
     switch (e.key) {
         case 'ArrowUp':
         case 'z':
-            dy = -1;
+            player.dy = -1;
             break;
         case 'ArrowDown':
         case 's':
-            dy = 1;
+            player.dy = 1;
             break;
         case 'ArrowLeft':
         case 'q':
-            dx = -1;
+            player.dx = -1;
             break;
         case 'ArrowRight':
         case 'd':
-            dx = 1;
+            player.dx = 1;
             break;
         case 'Space':
             player.shoot();
             break;
     }
+});
 
-    player.update(dx, dy);
+document.addEventListener('keyup', (e) => {
+    switch (e.key) {
+        case 'ArrowUp':
+        case 'z':
+        case 'ArrowDown':
+        case 's':
+            player.dy = 0;
+            break;
+        case 'ArrowLeft':
+        case 'q':
+        case 'ArrowRight':
+        case 'd':
+            player.dx = 0;
+            break;
+    }
 });
