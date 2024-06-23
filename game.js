@@ -135,6 +135,9 @@ function createBullet(x, y, dx, dy) {
             });
         }
     };
+    if (dx === 0 && dy === -5) {
+        bullet.owner = 'player';
+    }
     bullets.push(bullet);
 }
 
