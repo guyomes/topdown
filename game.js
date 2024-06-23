@@ -111,6 +111,8 @@ function createBullet(x, y, dx, dy) {
                 this.x + this.width > player.x &&
                 this.y < player.y + player.height &&
                 this.y + this.height > player.y) {
+                console.log(`Bullet position: x=${this.x}, y=${this.y}`);
+                console.log(`Player position: x=${player.x}, y=${player.y}`);
                 if (this.owner !== 'player') {
                     player.health -= 1;
                     if (player.health <= 0) {
